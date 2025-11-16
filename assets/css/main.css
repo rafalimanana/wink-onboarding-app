@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "tailwindcss";
+
+.text-error {
+  color: #c43333;
+  font-size: 12px;
+}
