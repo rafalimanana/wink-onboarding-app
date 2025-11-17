@@ -1,28 +1,12 @@
 <template>
     <div class="animate-fade-in order-2 md:order-1">
-        <UForm :schema="userSchema" :state="userStore" @submit="handleStep1Submit">
+        <UForm :schema="userSchema" :state="userStore" @submit="handleStep1Submit" class="form_step_one">
             <div class="mb-6">
                 <label class="block text-sm font-medium text-gray-700 mb-2">
                     {{$t('register.profilePhoto')}}
                 </label>
                 <div class="flex items-center space-x-4">
                     <div class="bloc_photo w-18 h-18 rounded-full flex items-center justify-center text-gray font-semibold text-lg border-2 borde_white shadow-md overflow-hidden">
-                        <!-- <div 
-                            v-if="!userStore.firstName && !userStore.lastName && !userStore.avatarUrl"
-                        >
-                            <UAvatar 
-                                icon="i-lucide-image" 
-                                size="md" 
-                                class="object-cover w-full h-full text-3xl font-semibold text-gray-700 mt-2"
-                            />
-                        </div>
-                        <div v-else>
-                            <UAvatar 
-                                :src="userStore.avatarUrl" 
-                                :alt="userName"
-                                class="object-cover w-full h-full text-3xl font-semibold text-gray-700"
-                            />
-                        </div> -->
                         <UAvatar 
                             v-if="!userStore.firstName && !userStore.lastName && !userStore.avatarUrl"
                             icon="i-lucide-image" 
@@ -40,7 +24,7 @@
                         <div class="flex">
                             <!-- Upload / Edit Photo -->
                             <UButton
-                              class="m-2 px-3 py-1.5 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-150"
+                              class="m-2 px-3 py-1.5 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-150 content_button"
                               icon="i-lucide-upload"
                               size="lg"
                               @click="triggerUpload"
@@ -52,8 +36,8 @@
                             <UButton
                                 class="m-2 px-3 py-1.5 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-150"
                                 :label="$t('common.deletePhoto')"
-                                :class="!workspaceStore.avatarUrl ? 'cursor-not-allowed' : ''"
-                                :disabled="!workspaceStore.avatarUrl" 
+                                :class="!userStore.avatarUrl ? 'cursor-not-allowed' : 'cursor-pointer'"
+                                :disabled="!userStore.avatarUrl" 
                                 size="lg"
                                 @click="deletePhoto"
                             />
@@ -75,34 +59,63 @@
                 </div>
             </div>
             <div class="mb-6">
-                <UFormField :label="$t('register.firstName')" name="firstName" required>
+                <UFormField :label="$t('register.firstName')" name="firstName" required class="text-xs font-medium text-gray-700 content_label">
                     <UInput 
                         v-model="userStore.firstName" 
                         :class="classInput()" 
                         size="xl" 
                         :placeholder="$t('register.firstName')" 
+                        class="text-sm font-regular"
                     />
+                    <template #error="{ error }">
+                      <p v-if="error" class="text-red-500 text-sm text-error">
+                        {{ $t('error.user.firstName') }}
+                      </p>
+                    </template>
                 </UFormField>
             </div>
             <div class="mb-6">
-                <UFormField :label="$t('register.lastName')" name="lastName" required>
+                <UFormField :label="$t('register.lastName')" name="lastName" required class="text-xs font-medium text-gray-700 content_label">
                     <UInput 
                         v-model="userStore.lastName" 
                         :class="classInput()" 
                         :placeholder="$t('register.lastName')" 
                         size="xl" 
+                        class="text-sm font-regular"
                     />
+                    <template #error="{ error }">
+                      <p v-if="error" class="text-red-500 text-sm text-error">
+                        {{ $t('error.user.lastName') }}
+                      </p>
+                    </template>
                 </UFormField>
             </div>
             <div class="mb-6">
-                <UFormField :label="$t('register.email')" name="email" required >
-                    <UInput 
-                        v-model="userStore.email" 
-                        icon="i-heroicons-envelope"
-                        :class="classInput()" 
-                        class="pl-10 pr-4 bg-gray-50 cursor-not-allowed"
-                        @blur="handleEmail"
-                    />
+                <UFormField 
+                    :label="$t('register.email')" 
+                    name="email" 
+                    required 
+                    class="content_email text-xs font-medium text-gray-700 content_label"
+                >
+                  <UInput 
+                    :avatar="{
+                      src: '/images/svg/icon_email.svg'
+                    }"
+                    size="lg" 
+                    v-model="userStore.email"
+                    :placeholder="$t('register.email')"
+                    :class="classInput()" 
+                    class="text-sm font-regular"
+                    @blur="handleEmail"
+                  />
+                    <template #error="{ error }">
+                     <p v-if="error" class="text-red-500 text-sm text-error">
+                      <!-- Vérifie le type de l'erreur pour afficher la traduction correcte -->
+                      {{ error.includes('required') 
+                         ? $t('error.user.emailRequired') 
+                         : $t('error.user.email') }}
+                    </p>
+                    </template>
                 </UFormField>
             </div>
             <div class="flex flex-col">
@@ -172,13 +185,13 @@ const handleFileUpload = (event) => {
 
   // Vérifier le type de fichier
   if (!ALLOWED_TYPES.includes(file.type)) {
-    error.value = 'Seuls les formats PNG et JPEG sont acceptés.'
+    error.value = t('error.step.format');
     return
   }
 
   // Vérifier la taille
   if (file.size > MAX_SIZE) {
-    error.value = 'La taille du fichier ne doit pas dépasser 5 Mo.'
+    error.value = t('error.step.size');
     return
   }
 
@@ -230,4 +243,27 @@ const handleEmail = async () => {
 .borde_white {
     border-color: #FFF;
 }
+
+:deep(.form_step_one .content_email input) {
+    padding-left: 38px;
+}
+
+:deep(.form_step_one .content_email span.absolute) {
+    padding-left: 10px;
+}
+
+:deep(.form_step_one .content_email span.absolute img) {
+    opacity: 0.4;
+    width: auto;
+    height: auto;
+}
+
+:deep(.form_step_one .content_label label.block) {
+    margin-bottom: 8px;
+}
+
+:deep(.content_button .iconify) {
+    margin-right: 5px;
+}
+
 </style>

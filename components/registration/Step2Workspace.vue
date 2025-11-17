@@ -1,6 +1,6 @@
 <template>
     <div class="animate-fade-in order-2 md:order-1">
-        <UForm :schema="workspaceSchema" :state="workspaceStore" @submit="handleStep2Submit">
+        <UForm :schema="workspaceSchema" :state="workspaceStore" @submit="handleStep2Submit" class="form_step_two">
             <div class="mb-7">
                 <label class="block text-sm font-medium text-gray-700 mb-2">
                     {{$t('workspace.companyLogo')}}
@@ -19,14 +19,14 @@
                     <div class="flex flex-col space-y-2">
                         <div class="flex space-x-3">
                             <UButton 
-                                class="px-3 py-1.5 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-150" 
+                                class="px-3 py-1.5 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-150 content_button" 
                                 icon="i-lucide-upload" 
                                 :label="workspaceStore.logoUrl ? $t('common.editPhoto') : $t('common.addPhoto')" 
                                 @click="triggerUploadLogo" 
                             />
                             <UButton 
                                 class="px-3 py-1.5 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-150"
-                                :class="!workspaceStore.logoUrl ? 'cursor-not-allowed' : ''"
+                                :class="!workspaceStore.logoUrl ? 'cursor-not-allowed' : 'cursor-pointer'"
                                 :label="$t('common.deletePhoto')" 
                                 :disabled="!workspaceStore.logoUrl" 
                                 @click="deleteLogo"
@@ -48,17 +48,28 @@
                 />
             </div>
             <div class="mb-7">
-                <UFormField :label="$t('workspace.companyName')" name="companyName" required>
-                    <UInput v-model="workspaceStore.name" :class="classInput()" :placeholder="$t('workspace.companyName')" size="xl" />
+                <UFormField :label="$t('workspace.companyLabel')" name="name" required class="text-xs font-medium text-gray-700 content_field">
+                    <UInput 
+                    v-model="workspaceStore.name" 
+                    :class="classInput()" 
+                    :placeholder="$t('workspace.companyName')" 
+                    size="xl" 
+                    class="text-sm font-regular"
+                    />
+                    <template #error="{ error }">
+                      <p v-if="error" class="text-red-500 text-sm text-error">
+                        {{ $t('error.workspace.companyName') }}
+                      </p>
+                    </template>
                 </UFormField>
             </div>
             <div class="mb-7">
-                <UFormField :label="$t('workspace.companyDescription')" name="description" required>
-                    <UTextarea v-model="workspaceStore.description" class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition duration-150 placeholder-gray-400" :rows="4" :placeholder="$t('workspace.companyDescription')" />
+                <UFormField :label="$t('workspace.companyDescription')" name="description" class="text-xs font-medium text-gray-700 content_field">
+                    <UTextarea v-model="workspaceStore.description" class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition duration-150 placeholder-gray-400 text-sm font-regular" :rows="4" :placeholder="$t('workspace.companyDescription')" />
                 </UFormField>
             </div>
             <div class="mb-7">
-                <UFormField :label="$t('workspace.website')" name="website" required>
+                <UFormField :label="$t('workspace.website')" name="website" class="text-xs font-medium text-gray-700 content_field">
                     <div class="flex">
                         <span class="inline-flex items-center px-3 text-sm text-gray-500 bg-gray-100 border border-r-0 border-gray-300 rounded-l-xl">https://</span>
                         <UInput 
@@ -66,30 +77,48 @@
                             @blur="workspaceStore.website = workspaceStore.cleanWebsiteInput(workspaceStore.website)"
                             :placeholder="$t('workspace.website')" 
                             :class="classInput()" 
-                            class="flex-1" 
+                            class="flex-1 text-sm font-regular"
                             size="xl" 
                         />
                     </div>
                 </UFormField>
             </div>
             <div class="mb-7">
-                <UFormField :label="$t('workspace.hqAddress')" name="address" required>
-                    <UInput v-model="workspaceStore.address" :class="classInput()" :placeholder="$t('workspace.plAddress')" size="xl" />
+                <UFormField :label="$t('workspace.hqAddress')" name="address" class="text-xs font-medium text-gray-700 content_field">
+                    <UInput 
+                        v-model="workspaceStore.address" 
+                        :class="classInput()" 
+                        :placeholder="$t('workspace.plAddress')" 
+                        size="xl" 
+                        class="text-sm font-regular"
+                    />
                 </UFormField>
             </div>
             <div class="mb-7">
-                <UFormField :label="$t('workspace.activitySector')" name="activitySector" required>
-                    <UInput v-model="workspaceStore.activitySector" :class="classInput()" :placeholder="$t('workspace.plActivitySector')" size="xl" />
+                <UFormField :label="$t('workspace.activitySector')" name="activitySector" class="text-xs font-medium text-gray-700 content_field">
+                    <UInput 
+                        v-model="workspaceStore.activitySector" 
+                        :class="classInput()" 
+                        :placeholder="$t('workspace.plActivitySector')" 
+                        size="xl" 
+                        class="text-sm font-regular"
+                    />
                 </UFormField>
             </div>
             <div class="flex justify-between items-center">
-                <button @click="onboardingStore.prevStep()" class="px-6 py-3 text-sm font-medium text-gray-700 rounded-xl hover:bg-gray-100 flex items-center space-x-2 transition duration-150 cursor-pointer">
+                <button 
+                    @click="onboardingStore.prevStep()" 
+                    class="px-6 py-3 text-sm font-medium text-gray-700 rounded-xl hover:bg-gray-100 flex items-center space-x-2 transition duration-150 cursor-pointer"
+                >
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M16.6666 10H3.33325M3.33325 10L8.33325 15M3.33325 10L8.33325 5" stroke="#475467" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
-                    <span>Retour</span>
+                    <span>{{ $t('common.back') }}</span>
                 </button>
-                <UButton type="submit" class="btn-primary  w-full px-6 py-3 bg-blue-600 text-white font-medium rounded-xl justify-center cursor-pointer">
+                <UButton 
+                    type="submit" 
+                    class="btn-primary w-full px-6 py-3 bg-blue-600 text-white font-medium rounded-xl justify-center cursor-pointer"
+                >
                     {{ $t('common.continue') }}
                 </UButton>
             </div>
@@ -101,6 +130,7 @@ import { workspaceSchema, WorkspaceState, useWorkspaceStore } from '@/store/work
 import { useOnboardingStore } from '@/store/onboarding';
 const workspaceStore = useWorkspaceStore();
 const onboardingStore = useOnboardingStore();
+const { locale, t } = useI18n();
 const ALLOWED_TYPES = ['image/png', 'image/jpeg'];
 
 // Appelée UNIQUEMENT si la validation Zod réussit
@@ -132,7 +162,7 @@ const handleFileUploadLogo = (event: Event) => {
 
   // Vérifier le type de fichier
   if (!ALLOWED_TYPES.includes(file.type)) {
-    error.value = 'Seuls les formats PNG et JPEG sont acceptés.'
+    error.value = t('error.step.format');
     return
   }
 
@@ -152,5 +182,13 @@ const deleteLogo = () => {
 <style scoped>
 .borde_white {
     border-color: #FFF;
+}
+
+:deep(.form_step_two .content_field label.block) {
+    margin-bottom: 8px;
+}
+
+:deep(.content_button .iconify) {
+    margin-right: 5px;
 }
 </style>

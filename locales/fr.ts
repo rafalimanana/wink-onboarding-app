@@ -54,11 +54,46 @@ export default {
     "workspace": {
         "companyLogo": "Logo de l'entreprise",
         "companyName": "Nom de l'entreprise",
+        "companyLabel": "Nom de l'entreprise *",
         "companyDescription": "Description de l'entreprise",
         "website": "Site Internet",
         "hqAddress": "Adresse du siège social",
         "plAddress": "Renseignez l'adresse de votre entreprise",
         "activitySector": "Secteur d'activité",
         "plActivitySector": "Renseignez le secteur d’activité de votre entreprise",
-    }
+    },
+    "finalization": {
+        "description": "Il s'agit de la dernière étape ! Toutes vos données sont prêtes à être enregistrées.",
+        "title": "Résumé",
+        "user": "Utilisateur",
+        "space": "Entreprise",
+    },
+    preview: {
+        profile: "Aperçu Profil",
+        workspace: "Espace de travail",
+        defaultCompany: "Nom de l'entreprise"
+    },
+    "error": {
+        "step" : {
+            "format": "Seuls les formats PNG et JPEG sont acceptés.",
+            "size": "La taille du fichier ne doit pas dépasser 5 Mo.",
+        },
+        "user": {
+            "firstName" : "Le prénom est requis et doit contenir au moins 2 caractères.",
+            "lastName" : "Le nom est requis et doit contenir au moins 2 caractères.",
+            "email" : "Format d'adresse mail invalide.",
+            "emailRequired" : "L'adresse mail est requise.",
+            "avatarUrl" : "URL d'avatar invalide.",
+        },
+        "workspace": {
+            "companyName" : "Le nom de l'entreprise est requis et doit contenir au moins 3 caractères.",
+            "description" : "La description est requise.",
+            "maxDescription" : "La description ne doit pas dépasser 500 caractères.",
+            "website" : "Le site internet est requis.",
+            "urlWebsite" : "URL de site internet invalide.",
+            "logo" : "URL de logo invalide.",
+            "adress" : "L'adresse du siège social est requise.",
+            "activity" : "Le secteur d'activité est requis.",
+        },
+    },
 }

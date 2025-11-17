@@ -4,8 +4,8 @@ import { z } from 'zod'
 // 1. Définition du SCHÉMA Zod
 export const workspaceSchema = z.object({
   name: z.string().min(3, "Le nom de l'entreprise est requis et doit contenir au moins 3 caractères."),
-  description: z.string().min(5, "La description est requise.").max(500, "La description ne doit pas dépasser 500 caractères.").optional().nullable(),
-   website: z.string()
+  /*description: z.string().min(5, "La description est requise.").max(600, "La description ne doit pas dépasser 500 caractères.").optional().nullable(),
+  website: z.string()
     .min(3, "Le site internet est requis.")
     .refine((val) => {
       try {
@@ -17,8 +17,8 @@ export const workspaceSchema = z.object({
       }
     }, "URL de site internet invalide."),
   logoUrl: z.string().url("URL de logo invalide.").nullable(),
-  address: z.string().min(5, "L'adresse du siège social est requise.").optional(),
-  activitySector: z.string().min(2, "Le secteur d'activité est requis.").optional(),
+  address: z.string().min(5, "L'adresse du siège social est requise."),
+  activitySector: z.string().min(2, "Le secteur d'activité est requis."),*/
 })
 
 
@@ -62,7 +62,7 @@ export const useWorkspaceStore = defineStore('workspace', {
         this.activitySector = wikiInfo.sector;
       } else {
         this.description = `Entreprise spécialisée dans son domaine.`;
-        this.activitySector = undefined;
+        this.activitySector = '';
       }
     },
 
@@ -126,7 +126,7 @@ export const useWorkspaceStore = defineStore('workspace', {
         }
       }
 
-      return undefined;
+      return '';
     }
   }
 })

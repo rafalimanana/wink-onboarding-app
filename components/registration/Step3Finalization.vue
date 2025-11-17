@@ -1,16 +1,27 @@
 <template>
-  <div class="animate-fade-in text-center">
-    <p class="text-gray-600 mb-8">
-      Il s'agit de la dernière étape ! Toutes vos données sont prêtes à être enregistrées.
-    </p>
+  <div class="animate-fade-in text-center order-2 md:order-1">
 
     <div class="p-6 bg-gray-50 rounded-lg text-left mb-8">
-      <h4 class="font-bold text-gray-700 mb-3">Résumé :</h4>
+      <h4 class="font-bold text-gray-700 mb-3">
+        {{ $t('finalization.title') }} :
+      </h4>
       <p class="text-sm">
-        <span class="font-medium">Utilisateur :</span> {{ userStore.firstName }} {{ userStore.lastName }} ({{ userStore.email }})
+        <span class="font-medium">{{ $t('finalization.user') }} :</span> {{ userStore.firstName }} {{ userStore.lastName }} ({{ userStore.email }})
       </p>
       <p class="text-sm">
-        <span class="font-medium">Espace :</span> {{ workspaceStore.name }} ({{ workspaceStore.website }})
+        <span class="font-medium">{{ $t('finalization.space') }} :</span> {{ workspaceStore.name }} ({{ workspaceStore.website }})
+      </p>
+      <p class="text-sm">
+        <span class="font-medium">{{ $t('workspace.website') }} :</span> {{ workspaceStore.website }}
+      </p>
+      <p class="text-sm">
+        <span class="font-medium">{{ $t('workspace.hqAddress') }} :</span> {{ workspaceStore.address }}
+      </p>
+      <p class="text-sm">
+        <span class="font-medium">{{ $t('workspace.activitySector') }} :</span> {{ workspaceStore.activitySector }}
+      </p>
+      <p class="text-sm">
+        <span class="font-medium">{{ $t('workspace.companyDescription') }} :</span> {{ workspaceStore.description }}
       </p>
     </div>
     <div class="flex justify-between items-center">
@@ -18,9 +29,9 @@
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M16.6666 10H3.33325M3.33325 10L8.33325 15M3.33325 10L8.33325 5" stroke="#475467" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <span>Retour</span>
+            <span>{{ $t('common.back') }}</span>
         </button>
-        <UButton type="submit" class="btn-primary w-full px-6 py-3 bg-blue-600 text-white font-medium rounded-xl shadow-lg shadow-blue-500/50 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300">
+        <UButton type="submit" class="btn-primary w-full px-6 py-3 bg-blue-600 text-white font-medium rounded-xl shadow-lg shadow-blue-500/50 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 justify-center cursor-pointer">
             {{ $t('common.continue') }}
         </UButton>
     </div>

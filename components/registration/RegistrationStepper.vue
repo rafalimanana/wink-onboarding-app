@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center items-start mb-16 max-w-xl mx-auto">
+  <div class="flex justify-center items-start mb-16 max-w-xl mx-auto custom_step">
     <template v-for="step in 3" :key="step">
       <div class="step-item transition-opacity duration-300 opacity-100">
         <div :class="stepClass(step)" class="w-8 h-8 rounded-full flex items-center justify-center text-lg transition-all duration-300">
@@ -101,5 +101,32 @@ const lineFillClass = (step: number) => (props.currentStep >= step ? 'bg-blue-60
     white-space: nowrap; 
     position: absolute;
     margin-top: 38px;
+}
+
+@media (max-width: 720px) {
+  .custom_step {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+  .step-line-container {
+    width: 100%; 
+    height: 40px; 
+    flex-direction: column;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    margin-left: unset;
+    margin-right: unset;
+  }
+  .step-line {
+    left: 50%;
+    top: 0;
+    width: 2px;
+    height: 100%;
+  }
+  .step-line-fill {
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>

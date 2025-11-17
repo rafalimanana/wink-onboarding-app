@@ -38,8 +38,8 @@ export default defineNuxtConfig({
     /*lazy: true,
     langDir: 'locales',*/
     defaultLocale: 'fr',
-    fallbackLocale: "fr",
-    strategy: 'no_prefix',
+    strategy: 'prefix',
+    fallbackLocale: 'fr',
   },
 
   pinia: {
